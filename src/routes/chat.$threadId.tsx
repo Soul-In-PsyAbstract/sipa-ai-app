@@ -9,6 +9,22 @@ export const Route = createFileRoute("/chat/$threadId")({
   component: ChatThread,
 });
 
+const FREE_MODELS = [
+  { id: "groq/llama-3.3-70b-versatile",     label: "Llama 3.3 70B",        provider: "Groq" },
+  { id: "groq/llama-3.1-8b-instant",        label: "Llama 3.1 8B (fast)",  provider: "Groq" },
+  { id: "groq/qwen-qwq-32b",                label: "Qwen QwQ 32B",         provider: "Groq" },
+  { id: "groq/gemma2-9b-it",                label: "Gemma2 9B",            provider: "Groq" },
+  { id: "groq/mixtral-8x7b-32768",          label: "Mixtral 8x7B",         provider: "Groq" },
+  { id: "cerebras/llama-3.3-70b",           label: "Llama 3.3 70B (fast)", provider: "Cerebras" },
+  { id: "cerebras/llama3.1-8b",             label: "Llama 3.1 8B (fast)",  provider: "Cerebras" },
+  { id: "nim/meta/llama-3.1-8b-instruct",   label: "Llama 3.1 8B",        provider: "NIM" },
+  { id: "nim/nvidia/nemotron-mini-4b-instruct", label: "Nemotron Mini 4B", provider: "NIM" },
+  { id: "sf/Qwen/Qwen2.5-7B-Instruct",      label: "Qwen 2.5 7B",         provider: "SiliconFlow" },
+  { id: "sf/deepseek-ai/DeepSeek-V2.5",     label: "DeepSeek V2.5",       provider: "SiliconFlow" },
+  { id: "hf/mistralai/Mistral-7B-Instruct-v0.3", label: "Mistral 7B",     provider: "HuggingFace" },
+  { id: "hf/Qwen/Qwen2.5-72B-Instruct",     label: "Qwen 2.5 72B",        provider: "HuggingFace" },
+];
+
 type Part = { type: "text"; text: string };
 type Msg = {
   id: string;
@@ -27,6 +43,7 @@ function ChatThread() {
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
+  const [selectedModel, setSelectedModel] = useState(FREE_MODELS[0].id);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -84,7 +101,7 @@ function ChatThread() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ messages: history, thread_id: threadId }),
+        body: JSON.stringify({ messages: history, thread_id: threadId, model: selectedModel }),
       });
       if (!res.ok) throw new Error(`Gateway ${res.status}`);
       const ct = res.headers.get("content-type") ?? "";
@@ -146,9 +163,25 @@ function ChatThread() {
         )}
       </div>
 
+      <div className="border-t border-white/5 px-4 pt-3">
+        <div className="flex items-center gap-2 mb-2">
+          <span className="font-mono text-[10px] text-protocol-slate">// model</span>
+          <select
+            value={selectedModel}
+            onChange={(e) => setSelectedModel(e.target.value)}
+            className="flex-1 bg-black/60 border border-white/10 px-2 py-1 text-protocol-slate font-mono text-[10px] focus:outline-none focus:border-logic-blue"
+          >
+            {FREE_MODELS.map((m) => (
+              <option key={m.id} value={m.id}>
+                [{m.provider}] {m.label}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
       <form
         onSubmit={(e) => { e.preventDefault(); send(); }}
-        className="border-t border-white/5 p-4 flex gap-2"
+        className="border-white/5 px-4 pb-4 flex gap-2"
       >
         <input
           value={input}

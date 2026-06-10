@@ -1,0 +1,18 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "sipa-ai-app",
+  "compatibility_date": "2025-09-24",
+  "compatibility_flags": ["nodejs_compat"],
+  "main": "src/server.ts",
+  "routes": [
+    { "pattern": "ai.sipa-os.org/*", "zone_name": "sipa-os.org" },
+    { "pattern": "app.sipa-os.org/*", "zone_name": "sipa-os.org" }
+  ],
+  "vars": {
+    "GATEWAY_URL": "https://gateway.soulinpsy.info",
+    "MCP_URL": "https://mcp.soulinpsy.info/mcp",
+    "RETRIEVAL_URL": "https://sipa-ret-tmxx327mbq-ez.a.run.app",
+    "INGESTION_URL": "https://sipa-ingest-tmxx327mbq-ez.a.run.app",
+    "RAG_FRONTEND_URL": "https://sipa-ai-frontend-tmxx327mbq-ez.a.run.app"
+  }
+}
