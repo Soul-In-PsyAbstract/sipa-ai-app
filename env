@@ -1,0 +1,6 @@
+VITE_SUPABASE_URL=placeholder
+VITE_SUPABASE_ANON_KEY=placeholder
+VITE_AUTH0_DOMAIN=dev-6imvg2uallgochox.us.auth0.com
+VITE_AUTH0_CLIENT_ID=btNjAolLkHmcJmedLFbdGoJ5Fn3el52n
+VITE_AUTH0_AUDIENCE=https://api.sipa-os.org
+VITE_CHAT_GATEWAY=https://gateway.soulinpsy.info/api/chat

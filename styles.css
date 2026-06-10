@@ -1,0 +1,42 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@theme {
+  --color-system-bg: #0f0f0f;
+  --color-logic-blue: #2563eb;
+  --color-protocol-slate: #94a3b8;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-sans: "Inter", system-ui, sans-serif;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-border: var(--border);
+  --color-primary: var(--color-logic-blue);
+  --color-primary-foreground: #ffffff;
+  --color-muted-foreground: var(--color-protocol-slate);
+}
+
+:root {
+  --background: #0f0f0f;
+  --foreground: #ffffff;
+  --border: rgba(255, 255, 255, 0.05);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  html, body {
+    background-color: #0f0f0f;
+    color: #94a3b8;
+    font-family: "Inter", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: #2563eb;
+    color: #fff;
+  }
+}
